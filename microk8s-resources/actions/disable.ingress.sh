@@ -3,6 +3,7 @@
 set -e
 
 source $SNAP/actions/common/utils.sh
+KUBECTL="$SNAP/kubectl --kubeconfig=$SNAP/client.config"
 
 echo "Disabling Ingress"
 
@@ -20,4 +21,9 @@ map[\$TAG]="$TAG"
 map[\$EXTRA_ARGS]="$EXTRA_ARGS"
 use_manifest ingress delete "$(declare -p map)"
 
+pods_sys="$($KUBECTL get po 2>&1)"
+if echo "$pods_sys" | grep "default-http-backend" &> /dev/null
+then
+  use_manifest default-http-backend delete "$(declare -p map)"
+fi
 echo "Ingress is disabled"
