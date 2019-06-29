@@ -65,6 +65,8 @@ apps:
     completer: istioctl.bash
   linkerd:
     command: microk8s-linkerd.wrapper
+  juju:
+    command: microk8s-juju.wrapper
 
 parts:
   libnftnl:
@@ -141,7 +143,8 @@ parts:
     - libssl1.0.0
     - coreutils
     - hostname
-    - diffutils    
+    - diffutils
+    - tar
     stage:
     - -sbin/xtables-multi
     - -sbin/iptables*
